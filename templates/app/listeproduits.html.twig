@@ -1,0 +1,62 @@
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UnedicApp</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body class="p-3 mb-2 bg-light text-dark">
+    <img src="{{ asset('logo.png') }}" alt="Logo"/>
+    <div style='background-color: gray;'>
+    <h1>Tous les produits</h>
+    </div>
+    <table id="products" class="table table-striped table-bordered table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Catégorie</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+    {% if (message) %}
+        {{ message }}
+    {% endif %}
+    {% for produit in lesProduits %}
+        <tr>
+         <th scope="row">{{ produit.libelleProduit }}</th>
+         <td>{{ produit.categorie.libelle }}</td>
+         <td><a href="{{path('app_modifProduit',{'id': produit.id})}}">Modifier</a></br></td>
+         <td><a href="{{path('app_suppProduit',{'id': produit.id})}}">Suppression</a></br></td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+    <td><a href="{{path('app_ajoutProduit')}}">Ajouter un Produit</a></br></td>
+    <div style='background-color: gray;'>
+    <h1>Lister les produits par Catégorie</h>
+    </div>
+    <table id="products" class="table table-striped table-bordered table-sm">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+    {% if (message) %}
+        {{ message }}
+    {% endif %}
+    {% for categorie in lesCategories %}
+        <tr>
+         <td><a href="{{path('app_triProduit',{'id': categorie.id})}}">{{ categorie.libelle }}</a></br></td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

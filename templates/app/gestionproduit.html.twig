@@ -1,0 +1,5 @@
+{% form_theme form 'form_table_layout.html.twig' %}
+{% block body %}
+    <img src="{{ asset('logo.png') }}" alt="Logo"/>
+    {{ form(form)}}
+{% endblock %}
