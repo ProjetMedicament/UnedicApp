@@ -1,0 +1,18 @@
+// Table Categories
+INSERT INTO `categories` (`id`, `libelle`) VALUES
+(1, 'Smartphones'),
+(2, 'Ordinateurs Portables'),
+(3, 'Imprimantes 3D');
+
+//Table Employe
+INSERT INTO `employe` (`id`, `login`, `mdp`, `statut`) VALUES
+(1, 'q3WU^54sv7tl', 'ad9c3b4269f55faf8313f2c9922d6117', 1),
+(2, '4$4A6Tw1j7v&', '12b74bb6adb08af3802397c70df34bcb', 0);
+
+//Table produits
+INSERT INTO `produits` (`id`, `categorie_id`, `libelle_produit`, `prix`) VALUES
+(1, 1, 'Samsung Galaxy s20', 234.56),
+(2, 2, 'HP Pavilion 14-dv0062nf', 890),
+(3, 3, 'Dagoma Magis', 230.57),
+(5, 2, 'HP Laptop 14-eg0001nf', 1178.56),
+(6, 1, 'Samsung Galaxy a42 5G', 270);
