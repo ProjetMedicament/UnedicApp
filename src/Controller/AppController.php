@@ -11,9 +11,13 @@ use App\Entity\Produits;
 use App\Entity\Categories;
 use App\Form\EmpConnexionType;
 use App\Form\ProduitType;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AppController extends AbstractController
 {
+    private $session;
+
     /**
      * @Route("/app", name="app_app")
      */
@@ -48,12 +52,15 @@ class AppController extends AbstractController
      * @Route("/connexion/{login},{mdp}", name="app_connexion")
      */
     // On vérifie si le login et le mot de passe sont corrects.Si oui alors on renvoie l'utilisateur à l'interface de gestion de produits.
-    public function verifIdentifiants(Request $request,$login,$mdp)
+    public function verifIdentifiants(Request $request,SessionInterface $session,$login,$mdp)
     {
         $user = $this->getDoctrine()->getRepository(Employe::class)->findOneBy(array ('login' => $login, 'mdp' => md5($mdp)));
         if ($user) {
             $statut=$user->getStatut();
             if($statut > 0){
+                $session = new Session();
+                $session->start();
+                $session->set('connected',1);
                 return $this->redirectToRoute('app_liste_produits');
                 return $this->render('formation/listeform.html.twig',array('lesForms' => $formations , 'message' => $message , 'messageI' => $messageI , 'messageA' => $messageA ,'messageB' => $messageB , 'insc' => $inscriptions , 'inscA' => $inscriptionsA, 'inscB' => $inscriptionsB,'lesEmployes'=>$employes));
             }
@@ -67,8 +74,12 @@ class AppController extends AbstractController
      * @Route("/accueiladmin", name="app_liste_produits")
      */
     // Vue d'ensemble des produits existants.
-    public function afficherListeProduits(Request $request)
+    public function afficherListeProduits(Request $request,SessionInterface $session)
     {   
+        $verifSession = $session->get('connected');
+        if($verifSession!=1){
+           return $this->redirectToRoute('app_login');
+        }
         $produits = $this->getDoctrine()->getRepository(Produits::class)->findAll();
                 if (!$produits) {
                     $message ="Aucun produit !";
@@ -151,8 +162,13 @@ class AppController extends AbstractController
      * @Route("/listeproduits/{id}", name="app_triProduit")
      */
     // Vue d'ensemble des produits existants selon la catégorie choisie,on récupère l'id de la catégorie.
-    public function afficherListeProduitSelonCateg(Request $request,$id)
+    public function afficherListeProduitSelonCateg(Request $request,SessionInterface $session,$id)
     {   
+
+        $verifSession = $session->get('connected');
+        if($verifSession!=1){
+           return $this->redirectToRoute('app_login');
+        }
         $produits = $this->getDoctrine()->getRepository(Produits::class)->findBy(array ("categorie"=>$id));
         // Nom de la catégorie affichée sur la liste des produits
         $categorie = $this->getDoctrine()->getRepository(Categories::class)->find($id);

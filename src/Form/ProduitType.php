@@ -16,6 +16,7 @@ class ProduitType extends AbstractType
         $builder
             ->add('libelleProduit')
             ->add('categorie', EntityType::class, array('class' => 'App\Entity\Categories','choice_label' => 'libelle'))
+            ->add('prix')
             ->add('enregistrer', SFType\SubmitType::class)
         ;
     }

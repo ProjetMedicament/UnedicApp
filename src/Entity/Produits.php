@@ -28,6 +28,11 @@ class Produits
      */
     private $categorie;
 
+    /**
+     * @ORM\Column(type="float", length=11)
+     */
+    private $prix;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -56,4 +61,17 @@ class Produits
 
         return $this;
     }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
 }
